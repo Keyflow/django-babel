@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Order Confirmation</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="https://www.keyflow.com/events/css/compiled/bootstrap.min.css" rel="stylesheet">
+
+        <style>
+            @font-face {
+            font-family: BrownStd-Light;
+            src: url(BrownStd-Light.otf);
+            font-stretch: condensed;
+            }
+            @font-face {
+            font-family: BrownStd-Bold;
+            src: url(BrownStd-Bold.otf);
+            font-stretch: condensed;
+            }
+            @font-face {
+            font-family: BrownStd;
+            src: url(BrownStd-Regular.otf);
+            font-stretch: condensed;
+            }
+        </style>
+    </head>
+    <body style="background-color: #000000; margin-left: 0px; font-size: 1.2em;">
+
+        <div class="container" style="font-family: BrownStd-Light;color:#211f21; background-image:linear-gradient(#FEFEFE, #FAFAFA); padding: 0 0 0 0;">
+            <div class="row">
+                <div class="col-xs-12">&nbsp;</div>
+                <div class="col-xs-12">&nbsp;</div>
+            </div>
+            <div class="well" style="background-color: #F8F8F8; padding: 8px 0px 8px 0px; border-radius: 0; margin-bottom: 0;">
+                <div class="row" style="padding: 2px 0px 2px;">
+                    <div class="col-xs-7" style="margin-left: 1em; font-family: BrownStd-Light;text-align:left;">- {{_("Your Admission")}}</div>
+                    <div class="col-xs-4" style="margin-right: 1em; font-family: BrownStd;text-align:right;">{{ '%s %s' % (order['guestAmount'], order['currency']) }}</div>
+                </div>
+                {% if 'paidGuest' in order %}
+                {% for guest in order['paidGuest'] %}
+                <div class="row" style="padding: 2px 0px 2px;">
+                    <div class="col-xs-7" style="margin-left: 1em; font-family: BrownStd-Light;text-align:left;">- {{_("Admission for")}}<strong>{{ guest['name'] }}</strong></div>
+                    <div class="col-xs-4" style="margin-right: 1em; font-family: BrownStd;text-align:right;">{{ '%s %s' % (guest['amount'], order['currency']) }}</div>
+                </div>
+                {% end %}
+                {% end %}
+                <div class="row" style="padding: 2px 0px 2px;">
+                    <div class="col-xs-7" style="margin-left: 1em; font-family: BrownStd-Light;text-align:left;">- {{_("Service Fee")}}</div>
+                    <div class="col-xs-4" style="margin-right: 1em; font-family: BrownStd;text-align:right;">{{ '%s %s' % (order['totalServiceFee'], order['currency']) }}</div>
+                </div>
+            </div>
+            <div class="well" style="background-color: #F2F2F2; padding: 8px 0px 8px 0px; border-radius: 0;  margin-bottom: 0;">
+                <div class="row" style="padding: 2px 0px 2px;">
+                    <div class="col-xs-7" style="margin-left: 1em; font-family: BrownStd-Bold;text-align:left;">{{_("TOTAL")}} ({{_("incl")}}. {{ order['taxName'] }})</div>
+                    <div class="col-xs-4" style="margin-right: 1em; font-family: BrownStd;text-align:right;">{{ '%s %s' % (order['totalAmount'], order['currency']) }}</div>
+                </div>
+            </div>
+            <div class="well" style="background-color: #F8F8F8; padding: 8px 0px 8px 0px; border-radius: 0;">
+                <div class="row" style="padding: 2px 0px 2px;">
+                    <div class="col-xs-7" style="margin-left: 1em; font-family: BrownStd-Light;text-align:left;">- {{ order['taxName'] }} ({{ order['taxRate'] }}%)</div>
+                    <div class="col-xs-4" style="margin-right: 1em; font-family: BrownStd;text-align:right;">{{ '%s %s' % (order['totalTax'] , order['currency']) }}</div>
+                </div>
+            </div>
+
+        </div>
+
+</body></html>
