@@ -106,6 +106,18 @@ class ExtractDjangoTestCase(unittest.TestCase):
             [(1, None, u'Translatable literal #9a', [])], messages
         )
 
+    def test_extract_non_ignored_comment(self):
+        test_tmpl = (
+            b'{# Translators: not ignored i18n comment #1 #}'
+            b'{% trans "Translatable literal #9a" %}'
+        )
+        buf = BytesIO(test_tmpl)
+        messages = list(extract_django(buf, default_keys, ["Translators"], {}))
+        self.assertEqual(
+            [(1, None, None, [u'Translators: not ignored i18n comment #1']),
+             (1, None, u'Translatable literal #9a', [])], messages
+        )
+
     def test_extract_valid_comment(self):
         test_tmpl = (
             b'{# ignored comment #6 #}'

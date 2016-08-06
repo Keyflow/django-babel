@@ -3,7 +3,7 @@ try:
     from django.template import Lexer, TOKEN_TEXT, TOKEN_VAR, TOKEN_BLOCK
 except ImportError:
     # Django 1.8 moved most stuff to .base
-    from django.template.base import Lexer, TOKEN_TEXT, TOKEN_VAR, TOKEN_BLOCK
+    from django.template.base import Lexer, TOKEN_TEXT, TOKEN_VAR, TOKEN_BLOCK, TOKEN_COMMENT
 
 try:
     from django.utils.translation import trim_whitespace as trim_django
@@ -181,3 +181,7 @@ def extract_django(fileobj, keywords, comment_tags, options):
                             p1 = p1.strip('()')
                         p1 = strip_quotes(p1)
                         yield lineno, None, smart_text(p1), []
+            elif t.token_type == TOKEN_COMMENT:
+                for comment_tag in comment_tags:
+                    if comment_tag in t.contents:
+                        yield lineno, None, None, [t.contents]
